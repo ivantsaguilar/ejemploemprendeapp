@@ -7,21 +7,9 @@ class MyApp extends StatelessWidget{ // No guarda su estado, entre cada actualiz
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
-    final wordPair = new WordPair.random();
-
     return MaterialApp( // Segundo widget
       title: 'Emprende',
-      home: Scaffold( // Tercer widget
-        appBar: AppBar( // Cuarto widget
-          title: Text('Emprende'),
-
-        ),
-        body: Center(
-          //child: Text(wordPair.asPascalCase.toString()),
-          child: RandomWords(),
-        )
-      ),
+      home: RandomWords(),
     );
   }
 }
@@ -37,12 +25,39 @@ class RandomWords extends StatefulWidget {
 }
 
 class RandomWordsState extends State<RandomWords> {
+  final _suggestions = <WordPair>[];
+
   @override
   Widget build(BuildContext context) {
 
-    final wordPair = new WordPair.random();
+    //final wordPair = new WordPair.random();
 
-    return Text(wordPair.asPascalCase.toString());
+    // return Text(wordPair.asPascalCase.toString());
+    return Scaffold( // Tercer widget
+        appBar: AppBar( // Cuarto widget
+          title: Text('Emprende'),
+
+        ),
+        body: _buildSuggestions()
+    );
+  }
+
+  Widget _buildSuggestions(){
+    return ListView.builder(
+      itemBuilder: (context, i){
+        if(i>= _suggestions.length){
+          _suggestions.addAll(generateWordPairs().take(5)); // Agregarmos 5 palabras mas al acabarse la lista
+        }
+
+        return _buildRow(_suggestions[i]); // Se genera el listview con todas las lapabras al tamaño de la pantalla
+      },
+    );
+  }
+
+  Widget _buildRow(WordPair pair) {
+    return ListTile(
+      title: Text(pair.asPascalCase),
+    );
   }
 
 }
