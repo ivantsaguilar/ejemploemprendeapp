@@ -27,6 +27,7 @@ class RandomWords extends StatefulWidget {
 class RandomWordsState extends State<RandomWords> {
 
   final _suggestions = <WordPair>[];
+  final _saved = Set<WordPair>(); // En Set no puede haber elementos repetidos pero en una lista si, es por eso que lo usaremos para guardar los likes
   final _biggerFont = const TextStyle(fontSize: 18);
 
   @override
@@ -59,16 +60,32 @@ class RandomWordsState extends State<RandomWords> {
 
         final index = i ~/ 2;
 
-        return _buildRow(_suggestions[index]); // Se genera el listview con todas las lapabras al tamaño de la pantalla
+        return _buildRow(_suggestions[index]); // Se genera el listview con todas las pabras al tamaño de la pantalla
       },
     );
   }
 
   Widget _buildRow(WordPair pair) {
+    final alreadySaved = _saved.contains(pair);
+
     return ListTile(
       title: Text(
           pair.asPascalCase,
-          style: _biggerFont,),
+          style: _biggerFont,
+      ),
+      trailing: Icon(
+        alreadySaved ? Icons.favorite : Icons.favorite_border, // (?) Si alreadySaved tiene el elemento se pone el favorite y si no esta (:) ponemos el favoriteborder
+        color: alreadySaved ? Colors.red : null,
+      ),
+      onTap: (){
+        setState(() { // Funcion principal en los stateful widget
+          if(alreadySaved){
+            _saved.remove(pair);
+          } else {
+            _saved.add(pair);
+          }
+        });
+      },
     );
   }
 
