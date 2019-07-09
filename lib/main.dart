@@ -39,10 +39,46 @@ class RandomWordsState extends State<RandomWords> {
     return Scaffold( // Tercer widget
         appBar: AppBar( // Cuarto widget
           title: Text('Emprende'),
-
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.list),
+              onPressed: _pushSaved,
+            ),
+            IconButton(
+              icon: Icon(Icons.add_a_photo),
+              onPressed: _pushSaved,
+            )
+          ],
         ),
         body: _buildSuggestions()
     );
+  }
+
+  void _pushSaved() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          final tiles = _saved.map((pair){ // Objeto pareja de palabras, listado de listtiles
+            return ListTile(
+              title: Text(
+                pair.asPascalCase.toString(),
+                style: _biggerFont,
+              ),
+            );
+          });// Widget que va a abrirse al dar click en la lista (Pantalla de las palabras seleccionadas)
+
+          final divided = ListTile.divideTiles(context: context, tiles: tiles).toList();
+
+          return Scaffold( // Regresamos la ruta y lo que vamos a mostrar
+            appBar: AppBar(
+              title: Text("Listado"),
+            ),
+            body: ListView(children: divided,
+            ),
+          );
+        }
+      )
+    ); // Nos vamos a la nueva ruta
   }
 
   Widget _buildSuggestions(){
@@ -88,5 +124,4 @@ class RandomWordsState extends State<RandomWords> {
       },
     );
   }
-
 }
