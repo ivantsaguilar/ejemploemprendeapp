@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color1">#c70e39</color>
+    <color name="blue">#0336AD</color>
+    <color name="blue100">#134CD5</color>
+    <color name="blue200">#89AAF5</color>
+    <color name="yellow">#FFC107</color>
+    <color name="nuevoFondoSplash">#c84344</color>
+    <color name="accentColor">#F87652</color>
+</resources>
